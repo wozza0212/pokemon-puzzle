@@ -13,7 +13,7 @@ from pygame.pypm import TRUE
 
 
 
-
+#add game over
 def isGameOver(board, size):
     assert isinstance(size, int)
     num_cells = size * size
@@ -21,28 +21,31 @@ def isGameOver(board, size):
         if board[i] != i: return False
     return True
 
+#move piece right
 def moveR(board, blank_cells_idx, num_cols):
     if blank_cells_idx % num_cols == 0: return blank_cells_idx
     board[blank_cells_idx-1], board[blank_cells_idx] = board[blank_cells_idx], board[blank_cells_idx-1]
     return blank_cells_idx-1
 
+#move piece left
 def moveL(board, blank_cells_idx, num_cols):
     if (blank_cells_idx + 1) % num_cols == 0: return blank_cells_idx
     board[blank_cells_idx+1], board[blank_cells_idx] = board[blank_cells_idx], board[blank_cells_idx+1]
     return blank_cells_idx+1
 
-
+#move piece down
 def moveD(board, blank_cells_idx, num_cols):
     if (blank_cells_idx) < num_cols: return blank_cells_idx
     board[blank_cells_idx - num_cols], board[blank_cells_idx] = board[blank_cells_idx], board[blank_cells_idx - num_cols]
     return blank_cells_idx - num_cols
 
+#move piece up
 def moveU(board, blank_cells_idx, num_rows, num_cols):
     if (blank_cells_idx) >= (num_rows -1) * num_cols: return blank_cells_idx
     board[blank_cells_idx + num_cols], board[blank_cells_idx] = board[blank_cells_idx], board[blank_cells_idx + num_cols]
     return blank_cells_idx + num_cols
 
-    
+# create game board    
 def CreateBoard(num_rows, num_cols, num_cells):
     board = []
     for i in range(num_cells): board.append(i)
@@ -60,11 +63,13 @@ def CreateBoard(num_rows, num_cols, num_cells):
         elif direction == 3: blank_cells_idx = moveD(board, blank_cells_idx, num_cols)
     return board, blank_cells_idx
 
+#get path to image
 def getImagePath(rootdir):
     imagenames = os.listdir(rootdir)
     assert len(imagenames) > 0
     return os.path.join(rootdir, random.choice(imagenames))
 
+#show end image
 def showEndImage(screen, width, height):
     screen.fill(cfg.BACKGROUND_COLOR)
     font = pygame.font.Font(cfg.FONTPATH, width/15)
